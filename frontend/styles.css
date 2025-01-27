@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    color: white;
+    overflow: hidden;
+}
+
+header {
+    text-align: center;
+    padding: 50px;
+}
+
+h1 {
+    font-size: 3em;
+    animation: fadeIn 2s;
+}
+
+h2 {
+    font-size: 2em;
+    margin-top: 20px;
+}
+
+.strategy-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.strategy-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.strategy-card:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
