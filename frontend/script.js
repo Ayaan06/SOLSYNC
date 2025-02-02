@@ -4,15 +4,33 @@ let marketChart;
 
 // Sample market data
 const marketData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-    datasets: [{
-        label: 'BTC/USD',
-        data: [40000, 42000, 38000, 45000, 47000, 43000, 48000],
-        borderColor: '#4f46e5',
-        borderWidth: 2,
-        fill: false,
-        tension: 0.1
-    }]
+    labels: [],
+    datasets: [
+        {
+            label: 'BTC/USD',
+            data: [],
+            borderColor: '#4f46e5',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.1
+        },
+        {
+            label: 'ETH/USD',
+            data: [],
+            borderColor: '#8b5cf6',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.1
+        },
+        {
+            label: 'SOL/USD',
+            data: [],
+            borderColor: '#14b8a6',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.1
+        }
+    ]
 };
 
 // Chart configuration
@@ -61,13 +79,61 @@ document.querySelectorAll('.timeframe-btn').forEach(btn => {
     });
 });
 
+let ws;
+const apiKey = 'YOUR_API_KEY'; // Will need to get this from user
+
+function connectWebSocket() {
+    ws = new WebSocket('wss://ws.coincap.io/prices?assets=bitcoin,ethereum,solana');
+    
+    ws.onmessage = (message) => {
+        const data = JSON.parse(message.data);
+        const timestamp = new Date().toLocaleTimeString();
+        
+        // Update BTC data
+        if (data.bitcoin) {
+            marketChart.data.datasets[0].data.push(data.bitcoin);
+        }
+        
+        // Update ETH data
+        if (data.ethereum) {
+            marketChart.data.datasets[1].data.push(data.ethereum);
+        }
+        
+        // Update SOL data
+        if (data.solana) {
+            marketChart.data.datasets[2].data.push(data.solana);
+        }
+        
+        // Update labels
+        marketChart.data.labels.push(timestamp);
+        
+        // Keep only last 100 data points
+        if (marketChart.data.labels.length > 100) {
+            marketChart.data.labels.shift();
+            marketChart.data.datasets.forEach(dataset => dataset.data.shift());
+        }
+        
+        marketChart.update();
+    };
+    
+    ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+    };
+    
+    ws.onclose = () => {
+        console.log('WebSocket connection closed');
+        setTimeout(connectWebSocket, 5000); // Reconnect after 5 seconds
+    };
+}
+
 function updateChartData(timeframe) {
-    // This would fetch new data based on timeframe
-    // For now, we'll just update the chart with sample data
-    const newData = generateSampleData(timeframe);
-    marketChart.data.labels = newData.labels;
-    marketChart.data.datasets[0].data = newData.data;
-    marketChart.update();
+    // Disconnect existing WebSocket if any
+    if (ws) {
+        ws.close();
+    }
+    
+    // Connect new WebSocket with appropriate timeframe
+    connectWebSocket();
 }
 
 function generateSampleData(timeframe) {
