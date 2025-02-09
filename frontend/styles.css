@@ -1,404 +1,49 @@
-:root {
-    --bg-dark: #0a0a0a;
-    --bg-light: #1a1a1a;
-    --primary: #00ff88;
-    --secondary: #00b8ff;
-    --text: #ffffff;
-    --text-muted: #b3b3b3;
-    --glass: rgba(255, 255, 255, 0.05);
-    --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    --border-radius: 12px;
-    --transition: all 0.3s ease;
-}
-
+/* Dark techy theme */
 body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-dark);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg-dark: #ffffff;
-        --bg-light: #f5f5f5;
-        --text: #0a0a0a;
-        --text-muted: #666666;
-        --glass: rgba(0, 0, 0, 0.05);
-    }
-}
-
-.main-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background: var(--bg-light);
-    border-bottom: 1px solid var(--glass);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: linear-gradient(45deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: var(--transition);
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-    color: var(--text);
-    background: var(--glass);
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.balance {
-    font-weight: 500;
-    color: var(--primary);
-}
-
-.btn-deposit,
-.btn-withdraw {
-    background: var(--glass);
-    border: 1px solid var(--glass);
-    color: var(--text);
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.btn-deposit:hover {
-    background: var(--primary);
-    color: var(--bg-dark);
-}
-
-.btn-withdraw:hover {
-    background: var(--secondary);
-    color: var(--bg-dark);
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 header {
-    text-align: center;
-    padding: 4rem 2rem 2rem;
-    background: var(--bg-light);
-    margin-bottom: 2rem;
-    border-bottom: 1px solid var(--glass);
+  background-color: #0d0d0d;
+  padding: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.logo {
+  height: 50px;
+  filter: brightness(0) invert(1);
 }
 
 h1 {
-    font-size: clamp(2rem, 8vw, 4rem);
-    font-weight: 800;
-    background: linear-gradient(45deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: fadeIn 1s;
-    margin: 0;
+  color: #00ffcc;
+  text-shadow: 0 0 5px #00ffcc;
 }
 
-h2 {
-    font-size: clamp(1.25rem, 5vw, 1.75rem);
-    color: var(--text-muted);
-    margin: 1rem 0 0;
-    font-weight: 400;
+p {
+  line-height: 1.6;
 }
 
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.market-chart {
-    background: var(--glass);
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    border: 1px solid var(--glass);
+.button {
+  background-color: #00ffcc;
+  color: #1a1a1a;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.chart-container {
-    height: 400px;
-    position: relative;
-}
-
-.chart-controls {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
-.timeframe-btn {
-    background: var(--glass);
-    border: 1px solid var(--glass);
-    color: var(--text-muted);
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.timeframe-btn.active,
-.timeframe-btn:hover {
-    background: var(--primary);
-    color: var(--bg-dark);
-}
-
-.order-form {
-    background: var(--glass);
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    border: 1px solid var(--glass);
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--text-muted);
-}
-
-.form-group select,
-.form-group input {
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--glass);
-    background: var(--bg-dark);
-    color: var(--text);
-    transition: var(--transition);
-}
-
-.form-group select:focus,
-.form-group input:focus {
-    outline: none;
-    border-color: var(--primary);
-}
-
-.btn-place-order {
-    width: 100%;
-    background: var(--primary);
-    color: var(--bg-dark);
-    padding: 1rem;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-weight: 600;
-    transition: var(--transition);
-}
-
-.btn-place-order:hover {
-    opacity: 0.9;
-}
-
-.strategy-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.strategy-card {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    border-radius: var(--border-radius);
-    padding: 2rem;
-    text-align: center;
-    transition: var(--transition);
-    border: 1px solid var(--glass);
-    box-shadow: var(--shadow);
-}
-
-.strategy-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-}
-
-footer {
-    text-align: center;
-    padding: 2rem;
-    margin-top: 4rem;
-    background: var(--bg-light);
-    border-top: 1px solid var(--glass);
-}
-
-footer p {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-@media (max-width: 768px) {
-    .strategy-container {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-    
-    header {
-        padding: 2rem 1rem;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* Portfolio Page Styles */
-.portfolio-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.portfolio-overview {
-    margin-bottom: 3rem;
-}
-
-.portfolio-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.stat-card {
-    background: var(--glass);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--glass);
-}
-
-.stat-value {
-    font-size: 2rem;
-    font-weight: 600;
-    margin: 0.5rem 0;
-}
-
-.stat-change {
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.stat-change.positive {
-    color: var(--primary);
-}
-
-.stat-change.negative {
-    color: #ff4d4d;
-}
-
-.portfolio-charts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 2rem;
-    margin: 3rem 0;
-}
-
-.holdings-table {
-    margin-top: 3rem;
-}
-
-.holdings-table table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--glass);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-}
-
-.holdings-table th,
-.holdings-table td {
-    padding: 1rem;
-    text-align: left;
-}
-
-.holdings-table th {
-    background: var(--bg-light);
-    font-weight: 600;
-}
-
-.holdings-table tr {
-    border-bottom: 1px solid var(--glass);
-}
-
-.holdings-table tr:last-child {
-    border-bottom: none;
-}
-
-.holdings-table .positive {
-    color: var(--primary);
-}
-
-.holdings-table .negative {
-    color: #ff4d4d;
-}
-
-.btn-trade {
-    background: var(--glass);
-    border: 1px solid var(--glass);
-    color: var(--text);
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.btn-trade:hover {
-    background: var(--primary);
-    color: var(--bg-dark);
+.button:hover {
+  background-color: #00e6b8;
+  box-shadow: 0 0 10px #00ffcc;
 }

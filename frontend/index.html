@@ -1,123 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
-    <meta name="description" content="MarketMinerAI - Advanced trading strategies powered by AI">
-    <title>MarketMinerAI</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MarketMinerAI</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <nav class="main-nav">
-            <div class="logo">MarketMinerAI</div>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Dashboard</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="market.html">Market</a></li>
-                <li><a href="orders.html">Orders</a></li>
-                <li><a href="history.html">History</a></li>
-            </ul>
-            <div class="user-info">
-                <span class="balance">$10,000.00</span>
-                <button class="btn-deposit">Deposit</button>
-                <button class="btn-withdraw">Withdraw</button>
-            </div>
-        </nav>
-        <div class="header-content">
-            <h1>MarketMinerAI Trading Platform</h1>
-            <h2>AI-Powered Trading Strategies & Market Analysis</h2>
-        </div>
-    </header>
-    <main>
-        <div class="dashboard-grid">
-            <section class="market-chart">
-                <div class="chart-container">
-                    <canvas id="marketChart"></canvas>
-                </div>
-                <div class="chart-controls">
-                    <button class="timeframe-btn active" data-timeframe="1h">1H</button>
-                    <button class="timeframe-btn" data-timeframe="4h">4H</button>
-                    <button class="timeframe-btn" data-timeframe="1d">1D</button>
-                    <button class="timeframe-btn" data-timeframe="1w">1W</button>
-                </div>
-            </section>
+  <header>
+    <div class="container">
+      <img src="https://placehold.co/200x50.png" alt="MarketMinerAI Logo" class="logo">
+    </div>
+  </header>
 
-            <section class="order-form">
-                <h2>Place Order</h2>
-                <form id="orderForm">
-                    <div class="form-group">
-                        <label for="orderType">Order Type</label>
-                        <select id="orderType">
-                            <option value="market">Market</option>
-                            <option value="limit">Limit</option>
-                            <option value="stop">Stop</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="orderSide">Side</label>
-                        <select id="orderSide">
-                            <option value="buy">Buy</option>
-                            <option value="sell">Sell</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="orderAmount">Amount</label>
-                        <input type="number" id="orderAmount" step="0.01" min="0" required>
-                    </div>
-                    <button type="submit" class="btn-place-order">Place Order</button>
-                </form>
-            </section>
+  <main class="container">
+    <h1>Welcome to MarketMinerAI</h1>
+    <p>Your intelligent solution for market analysis and insights.</p>
+    <form class="tracker-form">
+      <div class="input-group">
+        <label for="publicKey">Public Key to Track:</label>
+        <input type="text" id="publicKey" class="input-field" 
+               placeholder="Enter cryptocurrency public key" required>
+      </div>
+      
+      <div class="input-group">
+        <label for="buyAmount">Fixed Buy Amount ($):</label>
+        <input type="number" id="buyAmount" class="input-field"
+               placeholder="Enter USD amount" min="0" step="0.01" required>
+      </div>
 
-            <section class="strategy">
-            <h2>Trading Strategies</h2>
-            <nav class="tab-nav">
-                <button class="tab-link active" data-tab="automated">Automated</button>
-                <button class="tab-link" data-tab="manual">Manual</button>
-                <button class="tab-link" data-tab="social">Social</button>
-            </nav>
-            
-            <div class="tab-content active" id="automated">
-                <div class="strategy-container">
-                    <div class="strategy-card">
-                        <h3>Copy Trading</h3>
-                        <p>Follow and copy the trades of successful traders.</p>
-                    </div>
-                    <div class="strategy-card">
-                        <h3>Bonding Curve Snipes</h3>
-                        <p>Utilize bonding curves for optimal trading.</p>
-                    </div>
-                </div>
-            </div>
+      <div class="input-group">
+        <label for="sellAmount">Fixed Sell Amount ($):</label>
+        <input type="number" id="sellAmount" class="input-field" 
+               placeholder="Enter USD amount" min="0" step="0.01" required>
+      </div>
 
-            <div class="tab-content" id="manual">
-                <div class="strategy-container">
-                    <div class="strategy-card">
-                        <h3>Launching Snipes</h3>
-                        <p>Get in early on new token launches.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="social">
-                <div class="strategy-container">
-                    <div class="strategy-card">
-                        <h3>Social Media Snipes</h3>
-                        <p>Trade based on social media trends and signals.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 MarketMinerAI. All rights reserved.</p>
-    </footer>
-    <script src="script.js"></script>
+      <button type="submit" class="button">Save Settings</button>
+    </form>
+  </main>
 </body>
 </html>
