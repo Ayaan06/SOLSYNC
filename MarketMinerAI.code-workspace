@@ -1,12 +1,16 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"name": "walletTracker",
-			"path": "walletTracker"
-		}
-	],
-	"settings": {}
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "name": "Frontend Web",
+            "path": "frontend/web"
+        },
+        {
+            "name": "Frontend Python",
+            "path": "frontend/python"
+        }
+    ],
+    "settings": {}
 }
