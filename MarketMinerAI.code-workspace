@@ -1,12 +1,22 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"name": "walletTracker",
-			"path": "walletTracker"
-		}
-	],
-	"settings": {}
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "name": "Automation",
+            "path": "automation"
+        },
+        {
+            "name": "Trading Interface",
+            "path": "trading_interface"
+        }
+    ],
+    "settings": {
+        "explorer.fileNesting.enabled": true,
+        "explorer.fileNesting.patterns": {
+            "index.html": "styles.css, script.js"
+        },
+        "explorer.fileNesting.expand": true
+    }
 }
