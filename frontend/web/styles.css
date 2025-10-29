@@ -1,26 +1,63 @@
 ﻿/* Dark techy theme */
 body {
-  background-color: #1a1a1a;
+  background: radial-gradient(1000px 600px at 10% -20%, #0a0f12 0%, #0b0f12 30%, #030507 60%),
+              radial-gradient(800px 500px at 120% 10%, #061a17 0%, #071015 40%, #030507 70%);
   color: #e0e0e0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+}
+
+.bgfx {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
 header {
-  background-color: #0d0d0d;
-  padding: 20px;
-  border-bottom: 1px solid #333;
+  background: linear-gradient(90deg, rgba(0,255,204,0.08), rgba(0,140,255,0.08));
+  padding: 20px 0;
+  border-bottom: 1px solid #1f2a2a;
+  position: relative;
+  z-index: 2;
 }
 
-.logo {
-  height: 50px;
-  filter: brightness(0) invert(1);
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
+
+header .header-link {
+  color: #00ffcc;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+header .header-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.brand { display: inline-block; position: relative; }
+.brand::after {
+  content: "";
+  position: absolute; left: -30px; right: -30px; bottom: -14px; height: 30px;
+  background: radial-gradient(50% 100% at 50% 0%, #00ffcc44 0%, transparent 70%);
+  filter: blur(8px);
+}
+.logo { height: 96px; filter: none; display: block; opacity: 0.95; }
+.logo { filter: drop-shadow(0 0 10px #00ffcc55) drop-shadow(0 0 24px #008cff44); }
 
 h1 {
-  color: #00ffcc;
-  text-shadow: 0 0 5px #00ffcc;
+  background: linear-gradient(90deg, #00ffcc, #00ccff 50%, #00ffcc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 20px #00ffc922;
 }
 
 p {
@@ -33,9 +70,41 @@ p {
   padding: 20px;
 }
 
+.panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35), inset 0 0 40px rgba(0,255,204,0.03);
+  backdrop-filter: blur(6px);
+  padding: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.neon-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #00ffcc, #00ccff 50%, #7a5cff);
+  filter: blur(8px);
+  opacity: 0.06; /* very subtle */
+  z-index: -1;
+  animation: breathe 10s ease-in-out infinite; /* gentle breathing instead of rotation */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-border::before { animation: none; opacity: 0.05; }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.045; filter: blur(6px); }
+  50% { opacity: 0.09; filter: blur(10px); }
+}
+
 .button {
-  background-color: #00ffcc;
-  color: #1a1a1a;
+  background: linear-gradient(135deg, #00ffcc, #00e6b8);
+  color: #0b0f12;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -44,9 +113,35 @@ p {
 }
 
 .button:hover {
-  background-color: #00e6b8;
-  box-shadow: 0 0 10px #00ffcc;
+  filter: brightness(1.05);
+  box-shadow: 0 0 14px #00ffcc88, 0 0 30px #00ffc933 inset;
 }
+
+.button.secondary {
+  background: linear-gradient(135deg, #3a3f44, #2a2e33);
+  color: #e0e0e0;
+}
+
+.button.pulse {
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0px rgba(0,255,204,0.0); transform: translateZ(0); }
+  50% { box-shadow: 0 0 22px rgba(0,255,204,0.45); transform: translateZ(0); }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  border: 1px solid #1f2a2a;
+}
+.status-badge.running { background: #0e2c26; color: #00ffcc; box-shadow: 0 0 10px #00ffcc22; }
+.status-badge.idle { background: #2a2a2a; color: #d0d0d0; }
+.status-badge.offline { background: #2c1212; color: #ff5555; box-shadow: 0 0 10px #ff555522; }
 
 /* form layout */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
@@ -58,3 +153,12 @@ p {
 .status { margin-top: 20px; }
 .logs { background: #0e0e0e; border: 1px solid #333; padding: 10px; height: 320px; overflow: auto; }
 pre.logs { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; line-height: 1.4; }
+
+/* header accent */
+header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px; height: 2px;
+  background: linear-gradient(90deg, transparent, #00ffcc, #008cff, transparent);
+  filter: blur(0.3px);
+}

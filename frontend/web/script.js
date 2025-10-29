@@ -46,12 +46,17 @@ function renderLogs() {
 async function refreshStatus() {
   try {
     const data = await api('/status');
-    setStatus(data.running ? `Running (pid ${data.pid})` : 'Idle');
+    const running = !!data.running;
+    setStatus(running ? `Running (pid ${data.pid})` : 'Idle');
+    statusText.classList.remove('running','idle','offline');
+    statusText.classList.add(running ? 'running' : 'idle');
     if (data.running && !logsTimer) startLogs();
     if (!data.running && logsTimer) stopLogs();
     controllerOfflineNoted = false;
   } catch (e) {
     setStatus('Controller offline');
+    statusText.classList.remove('running','idle','offline');
+    statusText.classList.add('offline');
     if (!controllerOfflineNoted) {
       appendLocal('Controller appears offline. Is the server running?', 'WARN');
       controllerOfflineNoted = true;
@@ -85,6 +90,7 @@ function stopLogs() {
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   startBtn.disabled = true;
+  startBtn.classList.remove('pulse');
   appendLocal('Submitting start request...');
   setStatus('Starting...');
 
@@ -112,6 +118,7 @@ form.addEventListener('submit', async (e) => {
     appendLocal(`Start failed: ${err.message}`, 'ERROR');
     alert(`Failed to start: ${err.message}`);
     startBtn.disabled = false;
+    startBtn.classList.add('pulse');
   }
 });
 
@@ -121,9 +128,12 @@ stopBtn.addEventListener('click', async () => {
     await api('/stop', { method: 'POST' });
     appendLocal('Bot stopped.', 'OK');
     setStatus('Stopped');
+    statusText.classList.remove('running','offline');
+    statusText.classList.add('idle');
     startBtn.disabled = false;
     stopBtn.disabled = true;
     stopLogs();
+    startBtn.classList.add('pulse');
   } catch (err) {
     appendLocal(`Stop failed: ${err.message}`, 'ERROR');
     alert(`Failed to stop: ${err.message}`);
@@ -133,3 +143,5 @@ stopBtn.addEventListener('click', async () => {
 refreshStatus();
 setInterval(refreshStatus, 5000);
 
+// Visual cue to start when idle
+startBtn.classList.add('pulse');

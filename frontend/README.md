@@ -1,6 +1,6 @@
 # Frontend Directory Overview
 
-This directory contains the assets for the MarketMinerAI interface and a companion Python utility used for live Solana wallet tracking.
+This directory contains the assets for the SolSync interface and a companion Python utility used for live Solana wallet tracking.
 
 ## Structure
 

@@ -1,8 +1,8 @@
 <div align="center">
 
-  <img src="frontend/Logo.png" alt="MarketMinerAI" height="72" />
+  <img src="frontend/Logo.png" alt="SolSync" height="72" />
 
-  <h1>SolSync / MarketMinerAI</h1>
+  <h1>SolSync</h1>
   <p>AI‑assisted copy‑trading bot on Solana with a slick local web controller.</p>
 
   <p>
@@ -112,7 +112,3 @@ Troubleshooting ⚙️
 | ModuleNotFoundError (Flask/websockets/…) | Packages not installed | `pip install -r requirements.txt` |
 | No logs on the site | Bot not started or polling off | Click “Start Bot”; verify controller console for messages |
 | Slow or rate‑limited | Free public RPC endpoint | Try a paid Solana RPC plan for better WebSocket + limits |
-
-License
-- Add your preferred license here.
-

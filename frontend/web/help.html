@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MarketMinerAI – Help</title>
+  <title>SolSync – Help</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <canvas id="bgfx" class="bgfx"></canvas>
   <header>
     <div class="container">
-      <a href="/">
-        <img src="logo.png" alt="MarketMinerAI Logo" class="logo" />
+      <a href="/" class="brand">
+        <img src="logo.png?v=2" alt="SolSync Logo" class="logo" />
       </a>
+      <nav><a class="header-link" href="help.html">Help & Docs</a></nav>
     </div>
   </header>
 
-  <main class="container">
+  <main class="container panel neon-border">
     <h1>Help & Usage Guide</h1>
     <p>This page explains how to run the local controller and use the web UI to start and stop the SolSync copy-trading bot.</p>
 
@@ -64,5 +66,6 @@
 
     <p><a href="/">Back to Controller</a></p>
   </main>
+  <script src="effects.js"></script>
 </body>
 </html>
