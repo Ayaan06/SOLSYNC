@@ -1,4 +1,4 @@
-/* Dark techy theme */
+﻿/* Dark techy theme */
 body {
   background-color: #1a1a1a;
   color: #e0e0e0;
@@ -47,3 +47,14 @@ p {
   background-color: #00e6b8;
   box-shadow: 0 0 10px #00ffcc;
 }
+
+/* form layout */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.input-group { margin: 12px 0; display: flex; flex-direction: column; }
+.input-group.checkbox { flex-direction: row; align-items: center; gap: 10px; }
+.input-field { padding: 8px; background: #111; color: #eee; border: 1px solid #333; border-radius: 4px; }
+.actions { display: flex; gap: 12px; margin-top: 10px; }
+.button.secondary { background-color: #444; color: #e0e0e0; }
+.status { margin-top: 20px; }
+.logs { background: #0e0e0e; border: 1px solid #333; padding: 10px; height: 320px; overflow: auto; }
+pre.logs { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; line-height: 1.4; }

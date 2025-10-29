@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarketMinerAI – Help</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/">
+        <img src="logo.png" alt="MarketMinerAI Logo" class="logo" />
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Help & Usage Guide</h1>
+    <p>This page explains how to run the local controller and use the web UI to start and stop the SolSync copy-trading bot.</p>
+
+    <h2>Quick Start</h2>
+    <ol>
+      <li>Install dependencies in your Python environment:<br>
+        <code>pip install -r requirements.txt</code><br>
+        or individually: <code>pip install Flask websockets aiohttp solders</code>
+      </li>
+      <li>Start the controller server: <code>python frontend/python/control_server.py</code></li>
+      <li>Open <code>http://127.0.0.1:5000</code> in your browser.</li>
+      <li>Fill in the form and click <b>Start Bot</b>. Use <b>Stop Bot</b> to terminate.</li>
+    </ol>
+
+    <h2>Form Fields</h2>
+    <ul>
+      <li><b>Trading Wallet Secret (base58)</b>: Your Solana wallet secret key encoded in Base58 (see “Key Concepts”). This stays on your machine and is only used by the local controller to sign transactions.</li>
+      <li><b>Wallet To Track (public key)</b>: The master wallet whose token balance changes the bot mirrors.</li>
+      <li><b>Fixed Buy Amount (SOL)</b>: Amount of SOL to spend per buy signal.</li>
+      <li><b>Sell Percent (%)</b>: Percentage of token balance to sell on a sell signal (e.g., 100).</li>
+      <li><b>Slippage (%)</b> and <b>Priority Fee (SOL)</b>: Trade execution parameters forwarded to the Pump/Raydium route.</li>
+      <li><b>Pool</b>: Preferred route (Pump or Raydium). The bot rotates on retry.</li>
+      <li><b>RPC URLs</b>: WebSocket and HTTP endpoints used to subscribe and submit transactions.</li>
+    </ul>
+
+    <h2>Logs & Status</h2>
+    <ul>
+      <li>The <b>Status</b> panel shows whether the bot process is running and its PID.</li>
+      <li>The <b>Logs</b> area shows timestamped controller messages and <code>[BOT]</code>-prefixed output from the bot.</li>
+    </ul>
+
+    <h2>Key Concepts</h2>
+    <ul>
+      <li><b>Base58 key</b>: Solana keys are encoded with Base58 (an alphabet excluding easily-confused characters). Your “secret key (base58)” is a long Base58 string that decodes to your private key bytes. Keep it secret. Never share or commit it.</li>
+      <li><b>Public key</b>: The Base58-encoded public address of a wallet (safe to share).</li>
+      <li><b>WebSocket subscribe</b>: The bot subscribes to SPL Token program updates for the tracked wallet to detect balance changes quickly.</li>
+      <li><b>Trade execution</b>: The bot requests a serialized transaction from Pump’s <code>/trade-local</code> API, signs it locally, and submits it via your configured HTTP RPC.</li>
+    </ul>
+
+    <h2>Security Tips</h2>
+    <ul>
+      <li>Use a dedicated hot wallet with limited funds.</li>
+      <li>Run the controller locally or behind a VPN/Zero Trust proxy if you expose it on the internet.</li>
+      <li>Never paste secrets into shared screens; rotate keys if leaked.</li>
+    </ul>
+
+    <p><a href="/">Back to Controller</a></p>
+  </main>
+</body>
+</html>
