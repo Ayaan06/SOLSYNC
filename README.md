@@ -1,94 +1,118 @@
-SolSync / MarketMinerAI
-AI‑assisted copy‑trading bot for the Solana blockchain with a local web controller.
+<div align="center">
 
-Overview
-- Mirrors a “master” wallet’s SPL token balance changes and automatically places buy/sell orders.
-- Uses a Python bot for WebSocket monitoring and trade execution, plus a small Flask server to run it from a local web UI.
+  <img src="frontend/Logo.png" alt="MarketMinerAI" height="72" />
 
-Repository Structure
-- frontend/web: Static site (index.html, help.html, styles.css, script.js).
-- frontend/python: Bot (finalDraftV3.py) and controller (control_server.py).
-- frontend/Logo.png: Branding used by the web UI.
-- venv: Optional local virtual environment (Windows layout).
+  <h1>SolSync / MarketMinerAI</h1>
+  <p>AI‑assisted copy‑trading bot on Solana with a slick local web controller.</p>
 
-How It Works (High Level)
-- Subscribe: The bot watches SPL Token accounts for the tracked wallet via Solana WebSocket (programSubscribe on Token Program).
-- Detect: Balance increases → buy signal; decreases after a buy → sell signal.
-- Execute: Requests a serialized transaction from Pump’s trade‑local API, signs with your keypair locally, and submits to your HTTP RPC. Retries rotate between Pump and Raydium.
+  <p>
+    <sub>Built with Python · Flask · websockets · aiohttp · solders</sub>
+  </p>
 
-Key Concepts
-- Base58 keys: Solana public/secret keys are Base58‑encoded (not Base52). Base58 avoids ambiguous characters (0/O, I/l). Your “secret key (base58)” is a long Base58 string representing private key bytes. Keep it secret.
-- Public key: Your wallet address (safe to share). Also Base58.
-- RPC endpoints: WebSocket endpoint for subscriptions; HTTP endpoint for submitting transactions. Public endpoints work but paid tiers are more reliable.
+  <p>
+    🚀 Mirrors a master wallet · ⚡ Low‑latency execution · 🔁 Fault‑tolerant retries · 🔒 Local key signing
+  </p>
 
-Prerequisites
-- Python 3.10+ (3.12 tested). Recommended: a virtual environment.
-- Python dependencies:
-  - Flask (controller HTTP server)
-  - websockets (WebSocket client for Solana subscriptions)
-  - aiohttp (HTTP client for Pump trade-local and RPC submit)
-  - solders (Solana transaction and key utilities)
-  - Install all: `pip install -r requirements.txt`
-  - Or individually: `pip install Flask websockets aiohttp solders`
+</div>
 
-Running the Local Web Controller
-1) From the repo root:
-   - Windows: `python frontend\python\control_server.py`
-   - macOS/Linux: `python3 frontend/python/control_server.py`
-2) Open `http://127.0.0.1:5000` in your browser.
-3) Fill out the form and click Start Bot. Use Stop Bot to terminate.
+Why You’ll Like It
+- 🔧 Runs locally with a simple web UI — no cloud required.
+- 👀 Real‑time logs and status so you always know what’s happening.
+- 🧩 Configurable via form or CLI (wallets, amounts, slippage, RPCs, pool).
+- 🔐 Keys never leave your machine; transactions are signed locally.
 
-Form Fields
-- Trading Wallet Secret (base58): Your Base58‑encoded secret key (private key). Used locally to sign transactions.
-- Wallet To Track (public key): Master wallet to mirror.
-- Fixed Buy Amount (SOL): Spend this much SOL per buy signal.
-- Sell Percent (%): Percentage of token balance to sell on sell signal (e.g., 100).
-- Slippage (%), Priority Fee (SOL): Trade execution parameters.
-- Pool: Preferred route (Pump or Raydium). The bot alternates on retries.
-- RPC WS/HTTP URLs: Solana endpoints to subscribe and submit transactions.
+Architecture (At a Glance)
+| Layer | Component | What it does |
+| --- | --- | --- |
+| UI | `frontend/web/*` | Static site with form, status, and live logs |
+| Controller | `frontend/python/control_server.py` | Serves the UI, starts/stops the bot, aggregates logs via subprocess |
+| Bot | `frontend/python/finalDraftV3.py` | Subscribes to token updates, detects buys/sells, executes trades |
+| Chain / APIs | Solana RPC, Pump.fun, Raydium | WebSocket subscribe + HTTP submit, trade-local fetch and local signing |
 
-Bot CLI (Advanced, without the web UI)
-- The bot accepts flags and will prompt for anything missing:
-  - `--track-wallet <PUBKEY>`
-  - `--secret-key-base58 <BASE58_SECRET>` or `--secret-key-file <PATH>`
-  - `--fixed-buy <SOL>`
-  - `--sell-percent <0-100>`
-  - `--slippage <int>`
-  - `--priority-fee <SOL>`
-  - `--pool pump|raydium`
-  - `--rpc-ws-url <WS>`
-  - `--rpc-http-url <HTTP>`
-  - `--denominated-in-sol` (default) or `--no-denominated-in-sol`
-- Example: `python frontend/python/finalDraftV3.py --track-wallet <PUBKEY> --secret-key-file C:\keys\mykey.txt --fixed-buy 0.02 --sell-percent 100`
+Workflow
+| Step | Action | Detail |
+| --- | --- | --- |
+| 1️⃣ | Start | You click “Start Bot” in the UI; controller launches the bot with your inputs |
+| 2️⃣ | Subscribe | Bot opens a WebSocket to Solana and filters SPL Token accounts for the tracked wallet |
+| 3️⃣ | Detect | Balance increase → buy signal; decrease after buy → sell signal |
+| 4️⃣ | Execute | Fetch tx from Pump trade‑local → sign locally with your Base58 secret → submit via HTTP RPC |
+| 5️⃣ | Retry | On failure, alternate pool (Pump ↔ Raydium), up to 3 attempts |
+| 6️⃣ | Observe | Controller streams `[BOT]` output + timestamps to the UI logs |
 
-Security Notes
-- Never commit or share your Base58 secret key. Use a dedicated hot wallet with limited funds.
-- If you publish the controller on a public domain, put it behind HTTPS + authentication and ideally IP allow‑listing / Zero‑Trust.
-- Rotate keys if exposed.
+Quick Start (3 commands)
+```bash
+git clone <your-repo-url>
+cd <repo>
+pip install -r requirements.txt
+python frontend/python/control_server.py
+# Open http://127.0.0.1:5000 and click Start Bot
+```
 
-Project Components (Deeper Dive)
-- frontend/python/finalDraftV3.py
-  - WebSocket subscribe (programSubscribe) with filters for the tracked wallet’s token accounts.
-  - Buy/Sell detection and trade execution via Pump trade‑local → local signing → RPC submit.
-  - Retries with pool rotation (pump ↔ raydium).
-- frontend/python/control_server.py
-  - Serves the static UI, starts/stops the bot as a subprocess, aggregates logs.
-  - Endpoints: `POST /start`, `POST /stop`, `GET /status`, `GET /logs`.
-- frontend/web/index.html, script.js, styles.css
-  - Form for all inputs; status + timestamped logs; calls controller endpoints.
-  - help.html with a concise usage guide and key concepts.
+Dependencies
+- Python 3.10+ (3.12 tested). Create a venv if desired.
+- Install all deps:
+  ```bash
+  pip install -r requirements.txt
+  ```
+  What’s included:
+  - Flask — controller HTTP server
+  - websockets — WebSocket client for Solana
+  - aiohttp — HTTP client for Pump trade‑local and RPC submit
+  - solders — Solana transaction + key utilities
 
-Cloning & First Run
-1) `git clone <your-repo-url>`
-2) (Optional) Create and activate a venv.
-3) `pip install Flask websockets aiohttp solders`
-4) `python frontend/python/control_server.py`
-5) Visit `http://127.0.0.1:5000` and start the bot.
+Form → Flags Mapping
+| UI Field | CLI Flag | Example |
+| --- | --- | --- |
+| Trading Wallet Secret (Base58) | `--secret-key-base58` or `--secret-key-file` | `--secret-key-file C:\\keys\\hot.txt` |
+| Wallet To Track (public key) | `--track-wallet` | `--track-wallet 9x...abc` |
+| Fixed Buy Amount (SOL) | `--fixed-buy` | `--fixed-buy 0.02` |
+| Sell Percent (%) | `--sell-percent` | `--sell-percent 100` |
+| Slippage (%) | `--slippage` | `--slippage 5` |
+| Priority Fee (SOL) | `--priority-fee` | `--priority-fee 0.001` |
+| Pool | `--pool` | `--pool pump` |
+| Denominated In SOL | `--denominated-in-sol`/`--no-denominated-in-sol` | `--denominated-in-sol` |
+| WebSocket RPC URL | `--rpc-ws-url` | `--rpc-ws-url wss://api.mainnet-beta.solana.com` |
+| HTTP RPC URL | `--rpc-http-url` | `--rpc-http-url https://api.mainnet-beta.solana.com/` |
 
-Troubleshooting
-- 127.0.0.1 refused to connect → Start the controller first; check firewall prompts.
-- ModuleNotFoundError: Flask (or websockets/aiohttp/solders) → `pip install -r requirements.txt` in the active interpreter.
-- No logs → Ensure you’re on `http://127.0.0.1:5000` and click Start Bot; watch the UI and controller console.
+Bot CLI (Run without the UI)
+```bash
+python frontend/python/finalDraftV3.py \
+  --track-wallet <PUBKEY> \
+  --secret-key-file C:\\keys\\hot.txt \
+  --fixed-buy 0.02 --sell-percent 100 \
+  --slippage 5 --priority-fee 0.001 \
+  --pool pump \
+  --rpc-ws-url wss://api.mainnet-beta.solana.com \
+  --rpc-http-url https://api.mainnet-beta.solana.com/
+```
+
+Key Concepts (Plain English)
+- 🔑 Base58 keys (not Base52): Solana uses Base58 to encode keys (removes look‑alike characters). Your “secret key (Base58)” is a long string representing your private key bytes. Keep it private.
+- 🏦 Public key: The address of a wallet, also Base58. Safe to share.
+- 📡 WebSocket subscribe: Fast push updates from the chain for the tracked wallet’s token accounts.
+- 🧾 Local signing: The controller/bot signs transactions on your machine before submit; secrets are not uploaded.
+
+Security (Read Me!)
+- Use a dedicated hot wallet with limited funds.
+- Do not expose the controller publicly without HTTPS + authentication (and ideally VPN/Zero‑Trust/IP allow‑listing).
+- Never commit or share your Base58 secret. Rotate if leaked.
+
+Project Anatomy (Deeper Dive)
+- `frontend/python/finalDraftV3.py`
+  - WebSocket subscribe → buy/sell detection → trade‑local fetch → local signing → RPC submit → retry with pool rotation.
+- `frontend/python/control_server.py`
+  - Serves UI, starts/stops the bot, timestamps and streams logs: `POST /start`, `POST /stop`, `GET /status`, `GET /logs`.
+- `frontend/web/*`
+  - `index.html` (form + status + logs), `help.html`, `styles.css`, `script.js`, `logo.png`.
+
+Troubleshooting ⚙️
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| 127.0.0.1 refused to connect | Controller not running | Start with `python frontend/python/control_server.py` |
+| ModuleNotFoundError (Flask/websockets/…) | Packages not installed | `pip install -r requirements.txt` |
+| No logs on the site | Bot not started or polling off | Click “Start Bot”; verify controller console for messages |
+| Slow or rate‑limited | Free public RPC endpoint | Try a paid Solana RPC plan for better WebSocket + limits |
 
 License
 - Add your preferred license here.
+
